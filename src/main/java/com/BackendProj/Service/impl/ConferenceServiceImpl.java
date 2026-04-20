@@ -1,20 +1,22 @@
 
 package com.BackendProj.Service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.BackendProj.Dto.ConferenceCreateDto;
 import com.BackendProj.Dto.ConferenceResponseDto;
 import com.BackendProj.Entity.Conference;
 import com.BackendProj.Repository.ConferenceRepo;
+import com.BackendProj.Service.ConferenceService;
 
 import lombok.RequiredArgsConstructor;
 
 
 @Service
 @RequiredArgsConstructor
-public class ConferenceServiceImpl implements com.BackendProj.Service.ConferenceService {
-
+public class ConferenceServiceImpl implements ConferenceService{
     private final ConferenceRepo repository;
 
     @Override
@@ -36,6 +38,22 @@ public class ConferenceServiceImpl implements com.BackendProj.Service.Conference
             .endDate(saved.getEndDate())
             .build();
     }
+
+    @Override
+public List<ConferenceResponseDto> getAllConferences() {
+        return repository.findAll()
+            .stream()
+            .map(conf -> ConferenceResponseDto.builder()
+                .id(conf.getId())
+                .name(conf.getName())
+                .shortname(conf.getShortname())
+                .startDate(conf.getStartDate())
+                .endDate(conf.getEndDate())
+                .build())
+            .toList();
+}
+
+
 
     @Override
     public ConferenceResponseDto getConferenceById(Long id) {

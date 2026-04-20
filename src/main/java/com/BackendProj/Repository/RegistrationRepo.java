@@ -1,9 +1,14 @@
 
 package com.BackendProj.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.BackendProj.Entity.Conference;
 import com.BackendProj.Entity.Registration;
-import java.util.Optional;
+
+
+
+import com.BackendProj.Entity.User;
 
 public interface RegistrationRepo extends JpaRepository<Registration, Long> {
-    Optional<Registration> findByConferenceId(Long conferenceId);
+    boolean existsByUserAndConference(User user, Conference conference);
 }

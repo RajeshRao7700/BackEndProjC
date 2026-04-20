@@ -1,6 +1,10 @@
 
 package com.BackendProj.Controllers;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +21,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService.userService service;
+    private final UserService service;
+
+    @GetMapping
+public List<UserResponseDto> getAllUsers() {
+    return service.getAllUsers();
+}
+
+@GetMapping("/{id}")
+public UserResponseDto getUserById(@PathVariable Long id) {
+    return service.getUserById(id);
+}
 
     @PostMapping
     public UserResponseDto create(@RequestBody UserCreateDto dto) {

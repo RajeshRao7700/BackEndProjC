@@ -2,6 +2,7 @@
 package com.BackendProj.Service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -67,5 +68,31 @@ public class RegistrationServiceImpl implements RegistrationService {
             .conferenceName(conference.getName())
             .registrationStatus(registration.getRegistrationStatus())
             .build();
+    }
+
+    @Override
+    public List<RegistrationResponseDto> getAllRegistrations() {
+        return regRepo.findAll().stream()
+                .map(reg -> RegistrationResponseDto.builder()
+                        .RegistrationId(reg.getId())
+                        .userName(reg.getUser().getName())
+                        .userEmail(reg.getUser().getEmail())
+                        .conferenceName(reg.getConference().getName())
+                        .registrationStatus(reg.getRegistrationStatus())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public RegistrationResponseDto getRegistrationById(Long id) {
+        Registration reg = regRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Registration not found"));
+        return RegistrationResponseDto.builder()
+                .RegistrationId(reg.getId())
+                .userName(reg.getUser().getName())
+                .userEmail(reg.getUser().getEmail())
+                .conferenceName(reg.getConference().getName())
+                .registrationStatus(reg.getRegistrationStatus())
+                .build();
     }
 }
